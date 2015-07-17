@@ -229,5 +229,6 @@ Check the [puppetlabs_spec_helper](https://github.com/puppetlabs/puppetlabs_spec
 
 * [Kim Stig Andersen](https://github.com/ksaio)
 * [Joshua Hoblitt](https://github.com/jhoblitt)
+* [Daniel Forsberg](https://github.com/jenkins101)
 
 Features request and contributions are always welcome!

@@ -1,3 +1,8 @@
+###0.6.2
+
+* Fix compatibility with Puppet 2.7 ([jenkins101](https://github.com/jenkins101))
+* Partial revert of changes introduced in v0.6.1 (Puppet 4.x)
+
 ###0.6.1
 
 * Fix compatibility with Puppet 4.0 ([jhoblitt](https://github.com/jhoblitt))
@@ -26,7 +31,7 @@ Fix compatibility with future parser in Puppet 3.7.4 ([PUP-3615](https://tickets
 
 ###0.4.0
 
-* `update_cmd` can now be defined (thanks [Kim](https://github.com/ksaio)!)
+* `update_cmd` can now be defined ([ksaio](https://github.com/ksaio)!)
 * Deletion of the default hourly schedule on RHEL 7/Fedora 19+
 * Make Puppet Doc compliant with RDoc markup language
 * Refactoring
