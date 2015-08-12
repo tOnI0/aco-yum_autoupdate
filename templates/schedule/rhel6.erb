@@ -50,7 +50,7 @@ if mkdir $LOCKDIR 2>/dev/null; then
   # store the current process ID in there so we can check for staleness later
   echo "$$" >"${LOCKFILE}"
   # and clean up locks and tempfile if the script exits or is killed  
-  trap "{ rm -f $LOCKFILE $TSLOCK; rmdir $LOCKDIR 2>/dev/null; rm -f $YUMTMP; exit 255; }" INT TERM EXIT
+  trap "{ rm -f $LOCKFILE $TSLOCK; rmdir $LOCKDIR 2>/dev/null; rm -f $YUMTMP; exit; }" INT TERM EXIT
 else
   # lock failed, check if process exists.  First, if there's no PID file
   # in the lock directory, something bad has happened, we can't know the

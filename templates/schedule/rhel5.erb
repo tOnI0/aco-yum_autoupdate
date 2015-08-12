@@ -13,7 +13,7 @@ fi
 # Try mkdir for the lockfile, will test for and make it in one atomic action
 mkdir $LOCKFILE 2>/dev/null || exit
 # and clean up that lockfile if the script exits or is killed  
-trap "{ rmdir $LOCKFILE 2>/dev/null ; exit 255; }" INT TERM EXIT
+trap "{ rmdir $LOCKFILE 2>/dev/null ; exit ; }" INT TERM EXIT
 
 # Grab config settings
 if [ -f <%= @config_path %> ]; then

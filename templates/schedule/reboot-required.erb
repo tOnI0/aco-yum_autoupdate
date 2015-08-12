@@ -1,0 +1,45 @@
+#!/bin/bash
+# ******************
+# Managed by Puppet
+# ******************
+
+# settings
+MAILTO=<%= @email_to %>
+# Do system reboot if required.
+DO_REBOOT=<%= @do_reboot %>
+# time to reboot, see man shutdown. default is "now"
+REBOOT_TIME=<%= @reboot_time %>
+
+# Only run if this flag file is set (by /etc/rc.d/init.d/yum-cron)
+if [ ! -f /var/lock/subsys/yum-cron ]; then
+  exit 0
+fi
+
+# check if a system reboot is required
+LATEST_KERNEL="`rpm -q --last kernel | grep -o '^kernel-[^ ]*' | head -n1`"
+CURRENT_KERNEL="kernel-`uname -r`"
+
+if [ "$LATEST_KERNEL" != "$CURRENT_KERNEL" ]; then
+  REBOOT_REQUIRED="yes"
+fi
+
+if [ -z $REBOOT_REQUIRED ] && [ -x /usr/bin/needs-restarting ]; then
+  NEEDS_RESTARTING="`/usr/bin/needs-restarting`"
+  if [[ "$NEEDS_RESTARTING" =~ "/sbin/init" ]]; then
+    REBOOT_REQUIRED="yes"
+  fi
+fi
+
+if [ "$REBOOT_REQUIRED" == "yes" ]; then
+  if [ "$DO_REBOOT" == "yes" ]; then
+    shutdown -r ${REBOOT_TIME} "yum-cron is rebooting the system due to installed updates"
+  elif [ ! -z "$MAILTO" ] && [ -x /bin/mail ]; then
+    # if MAILTO is set, use mail command (ie better than standard mail with cron output)
+    mail -s "reboot required on $SYSTEMNAME due to system update"<% if ! @email_from.empty? -%> -r <%= @email_from %> <% end %> $MAILTO
+  else
+    # default behavior is to use cron's internal mailing of output from cron-script
+    echo "  !! REBOOT IS REQUIRED !!"
+  fi
+fi
+
+exit 0
