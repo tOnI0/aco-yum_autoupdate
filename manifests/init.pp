@@ -16,6 +16,8 @@
 #   mode in which yum-cron should perform (valid: 'check', 'download', 'apply')
 # [*exclude*]
 #   packages to exclude from automatic update (array)
+# [*yum_params*]
+#   any extra yum cmdline parameters like --disablerepo= (only supported on RHEL 5 & 6)
 # [*notify_email*]
 #   enable email notifications (boolean)
 # [*email_to*]
@@ -56,6 +58,7 @@ class yum_autoupdate (
   $keep_default_hourly = false,
   $action              = 'apply',
   $exclude             = [],
+  $yum_params          = '',
   $notify_email        = true,
   $email_to            = 'root',
   $email_from          = 'root',
@@ -68,7 +71,7 @@ class yum_autoupdate (
   validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly)
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
-  validate_string($email_to, $email_from, $update_cmd)
+  validate_string($email_to, $email_from, $update_cmd, $yum_params)
   if ($debug_level < -1) or ($debug_level > 10) { fail('$debug_level must be a number between -1 and 10') }
   if ($error_level < 0) or ($error_level > 10) { fail('$error_level must be a number between 0 and 10') }
   validate_re($update_cmd, '^(default|security|security-severity:Critical|minimal|minimal-security|minimal-security-severity:Critical)$', '$update_cmd must be either \'default\', \'security\', \'security-severity:Critical\', \'minimal\', \'minimal-security\' or \'minimal-security-severity:Critical\'')

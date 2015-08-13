@@ -2,7 +2,7 @@
 # Managed by Puppet
 # ******************
 
-YUM_PARAMETER=<%= @exclude_real %>
+YUM_PARAMETER=<% if ! @yum_params.empty? -%>"<%= @yum_params %> "<% end %><%= @exclude_real %>
 CHECK_ONLY=<% if @action == 'check' -%>yes<% else -%>no<% end %>
 DOWNLOAD_ONLY=<% if @action == 'download' -%>yes<% else -%>no<% end %>
 ERROR_LEVEL=<%= @error_level %>
