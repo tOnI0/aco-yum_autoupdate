@@ -14,6 +14,10 @@
 #   wheter to keep the default hourly schedule (boolean)
 # [*action*]
 #   mode in which yum-cron should perform (valid: 'check', 'download', 'apply')
+# [*do_reboot*]
+#   if a reboot should be performed after update if required (valid: 'yes', 'no')
+# [*reboot_time*]
+#   time to reboot, see man shutdown. default is "now"
 # [*exclude*]
 #   packages to exclude from automatic update (array)
 # [*notify_email*]
@@ -35,7 +39,7 @@
 # === Actions:
 #
 # * Install yum-cron
-# * Configure automatic updates and email notifications
+# * Configure automatic updates, email notifications and reboot
 #
 # === Requires:
 #
@@ -55,6 +59,8 @@ class yum_autoupdate (
   $default_schedule    = true,
   $keep_default_hourly = false,
   $action              = 'apply',
+  $do_reboot           = 'no',
+  $reboot_time         = 'now',
   $exclude             = [],
   $notify_email        = true,
   $email_to            = 'root',
@@ -67,6 +73,7 @@ class yum_autoupdate (
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
   validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly)
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
+  validate_re($do_reboot, '^(yes|no)$', '$do_reboot must be either \'yes\' or \'no\'')
   validate_array($exclude)
   validate_string($email_to, $email_from, $update_cmd)
   if ($debug_level < -1) or ($debug_level > 10) { fail('$debug_level must be a number between -1 and 10') }

@@ -6,6 +6,10 @@
 #
 # [*action*]
 #   mode in which yum-cron should perform (valid: 'check', 'download', 'apply')
+# [*do_reboot*]
+#   if a reboot should be performed after update if required (valid: 'yes', 'no')
+# [*reboot_time*]
+#   time to reboot, see man shutdown. default is "now"
 # [*exclude*]
 #   packages to exclude from automatic update (array)
 # [*notify_email*]
@@ -56,6 +60,8 @@
 #
 define yum_autoupdate::schedule (
   $action       = 'apply',
+  $do_reboot    = 'no',
+  $reboot_time  = 'now',
   $exclude      = [],
   $notify_email = true,
   $email_to     = 'root',
@@ -79,6 +85,7 @@ define yum_autoupdate::schedule (
 
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
+  validate_re($do_reboot, '^(yes|no)$', '$do_reboot must be either \'yes\' or \'no\'')
   validate_array($exclude)
   validate_bool($notify_email)
   validate_string($email_to, $email_from, $update_cmd)
@@ -124,9 +131,15 @@ define yum_autoupdate::schedule (
     content => template("${module_name}/schedule/${yum_autoupdate::params::schedule_tpl}"),
     mode    => '0755'
   } ->
+  file { "yum-cron ${name} reboot-required":
+    ensure  => present,
+    path    => "/etc/yum/schedules/reboot-required_${name_real}",
+    content => template("${module_name}/schedule/reboot-required.erb"),
+    mode    => '0755'
+  } ->
   cron { "yum-cron ${name} schedule":
     ensure   => present,
-    command  => "/etc/yum/schedules/yum-cron_${name_real}",
+    command  => "/etc/yum/schedules/yum-cron_${name_real} && /etc/yum/schedules/reboot-required_${name_real}",
     user     => $user,
     hour     => $hour,
     minute   => $minute,
