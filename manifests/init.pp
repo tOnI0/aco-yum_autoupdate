@@ -61,11 +61,12 @@ class yum_autoupdate (
   $email_from          = 'root',
   $debug_level         = $yum_autoupdate::params::debug_level,
   $error_level         = 0,
+  $skip_broken         = 'True',
   $update_cmd          = 'default',
   $randomwait          = 60) inherits yum_autoupdate::params {
   # parameters validation
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
-  validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly)
+  validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly, $skip_broken)
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
   validate_string($email_to, $email_from, $update_cmd)

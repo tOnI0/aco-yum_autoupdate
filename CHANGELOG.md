@@ -1,3 +1,7 @@
+###0.6.3
+
+ * Added control over skip_broken yum parameter
+
 ###0.6.2
 
 * Fix compatibility with Puppet 2.7 ([jenkins101](https://github.com/jenkins101))
