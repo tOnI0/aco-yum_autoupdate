@@ -202,6 +202,10 @@ Defaults to `default`
 
 Maximum amount of time in minutes YUM randomly waits before running. Valid values are numbers between `0` and `1440`. `0` to disable. Defaults to `60`
 
+#####`systemname`
+
+Hostname to use for identification. Defaults to `undef` which should be automatically converted to the system hostname.
+
 ##To Do
 
 * Add support for passing arbitrary parameters to YUM

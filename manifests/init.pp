@@ -30,6 +30,8 @@
 #   enable skip-broken option (boolean)
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
+# [*systemname*]
+#   hostname to identify as, defaults to undef
 # [*update_cmd*]
 #   what kind of update to use (valid: default, security, security-severity:Critical, minimal, minimal-security,
 #   minimal-security-severity:Critical)
@@ -65,6 +67,7 @@ class yum_autoupdate (
   $error_level         = 0,
   $skip_broken         = false,
   $update_cmd          = 'default',
+  $systemname          = undef,
   $randomwait          = 60) inherits yum_autoupdate::params {
   # parameters validation
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')

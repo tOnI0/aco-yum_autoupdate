@@ -10,7 +10,11 @@ apply_updates = <% if @action == 'apply' -%>yes<% else -%>no<% end %>
 random_sleep = <%= @randomwait %>
 
 [emitters]
+<% if @systemname and @systename != '' -%>
+system_name = <%= @systemname %>
+<% else -%>
 system_name = None
+<% end -%>
 emit_via = <% if @email_to.empty? -%>stdio<% else -%>email<% end %>
 output_width = 80
 

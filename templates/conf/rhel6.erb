@@ -9,7 +9,11 @@ CHECK_FIRST=no
 ERROR_LEVEL=<%= @error_level %>
 DEBUG_LEVEL=<%= @debug_level_real %>
 MAILTO=<%= @email_to %>
+<% if @systemname and @systename != '' -%>
+SYSTEMNAME="<%= @systemname %>"
+<% else -%>
 #SYSTEMNAME=""
+<% end -%>
 RANDOMWAIT=<%= @randomwait %>
 #DAYS_OF_WEEK="0123456" 
 CLEANDAY="0"
