@@ -28,6 +28,8 @@
 #   YUM error level (valid: 0-10). 0 to disable error output completely
 # [*skip_broken*]
 #   enable skip-broken option (boolean)
+# [*assume_yes*]
+#   enable assume_yes option (boolean)
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
 # [*systemname*]
@@ -66,12 +68,13 @@ class yum_autoupdate (
   $debug_level         = $yum_autoupdate::params::debug_level,
   $error_level         = 0,
   $skip_broken         = false,
+  $assume_yes          = false,
   $update_cmd          = 'default',
   $systemname          = undef,
   $randomwait          = 60) inherits yum_autoupdate::params {
   # parameters validation
   validate_re($service_ensure, '^(stopped|running)$', '$service_ensure must be either \'stopped\', or \'running\'')
-  validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly, $skip_broken)
+  validate_bool($service_enable, $notify_email, $default_schedule, $keep_default_hourly, $skip_broken, $assume_yes)
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
   validate_string($email_to, $email_from, $update_cmd)

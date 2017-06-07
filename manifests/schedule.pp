@@ -20,6 +20,8 @@
 #   YUM error level (valid: 0-10). 0 to disable error output completely
 # [*skip_broken*]
 #   enable skip-broken option (boolean)
+# [*assume_yes*]
+#   enable assume_yes option (boolean)
 # [*randomwait*]
 #   maximum amount of time in minutes YUM randomly waits before running (valid: 0-1440). 0 to disable
 # [*update_cmd*]
@@ -65,6 +67,7 @@ define yum_autoupdate::schedule (
   $debug_level  = $yum_autoupdate::params::debug_level,
   $error_level  = 0,
   $skip_broken  = false,
+  $assume_yes   = false,
   $update_cmd   = 'default',
   $randomwait   = 60,
   #cron attributes,
@@ -83,7 +86,7 @@ define yum_autoupdate::schedule (
   # parameters validation
   validate_re($action, '^(check|download|apply)$', '$action must be either \'check\', \'download\' or \'apply\'')
   validate_array($exclude)
-  validate_bool($notify_email, $skip_broken)
+  validate_bool($notify_email, $skip_broken, $assume_yes)
   validate_string($email_to, $email_from, $update_cmd)
   if ($debug_level < -1) or ($debug_level > 10) { fail('$debug_level must be a number between -1 and 10') }
   if ($error_level < 0) or ($error_level > 10) { fail('$error_level must be a number between 0 and 10') }

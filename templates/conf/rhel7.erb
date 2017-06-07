@@ -34,7 +34,9 @@ errorlevel = <%= @error_level %>
 skip_broken = True
 <% end -%>
 mdpolicy = group:main
-# assumeyes = True
+<% if @assume_yes -%>
+assumeyes = True
+<% end -%>
 <% if ! @exclude.empty? -%>
 exclude=<%= @exclude_real %>
 <% end -%>

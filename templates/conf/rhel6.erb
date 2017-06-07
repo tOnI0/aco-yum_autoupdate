@@ -2,7 +2,7 @@
 # Managed by Puppet
 # ******************
 
-YUM_PARAMETER=<%= @exclude_real %><% if @skip_broken %>\ --skip-broken<% end %>
+YUM_PARAMETER=<%= @exclude_real %><% if @skip_broken %>\ --skip-broken<% end %><% if @assume_yes %>\ --assumeyes<% end %>
 CHECK_ONLY=<% if @action == 'check' -%>yes<% else -%>no<% end %>
 DOWNLOAD_ONLY=<% if @action == 'download' -%>yes<% else -%>no<% end %>
 CHECK_FIRST=no
@@ -15,7 +15,7 @@ SYSTEMNAME="<%= @systemname %>"
 #SYSTEMNAME=""
 <% end -%>
 RANDOMWAIT=<%= @randomwait %>
-#DAYS_OF_WEEK="0123456" 
+#DAYS_OF_WEEK="0123456"
 CLEANDAY="0"
 SERVICE_WAITS=yes
 SERVICE_WAIT_TIME=300
