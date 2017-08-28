@@ -171,6 +171,10 @@ An empty string forces the output to stdio, so emails will be sent by crond
 Sender email address for update notifications. No effect when `email_to` is empty. Defaults to `root` (local user)  
 *Note:* not supported on CentOS 5
 
+##### `email_host`
+Email host address for update notifications. No effect when `email_to` is empty. Defaults to `localhost`  
+*Note:* not supported on CentOS 5 and CentOS 6
+
 ##### `debug_level`
 YUM debug level. Valid values are numbers between `-1` and `10`. `-1` to disable. Default depends on the platform  
 Enforced to `-1` when `notify_email` is `false`  
