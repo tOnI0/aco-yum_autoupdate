@@ -196,6 +196,7 @@ describe 'yum_autoupdate::schedule' do
           'notify_email' => false,
           'email_to'     => 'admin@example.com',
           'email_from'   => 'updates@localhost',
+          'email_host'   => 'smtp.example.com',
           'debug_level'  => 4,
           'error_level'  => 2,
           'skip_broken'  => true,
@@ -225,7 +226,7 @@ describe 'yum_autoupdate::schedule' do
       end
       context 'on new generation' do
         it 'expect valid content' do
-          is_expected.to contain_file('yum-cron rspec_hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\n[commands]\nupdate_cmd = security\nupdate_messages = no\ndownload_updates = no\napply_updates = no\nrandom_sleep = 120\n\n[emitters]\nsystem_name = None\nemit_via = email\noutput_width = 80\n\n[email]\nemail_from = updates@localhost\nemail_to = admin@example.com\nemail_host = localhost\n\n[groups]\ngroup_list = None\ngroup_package_types = mandatory, default\n\n[base]\ndebuglevel = -1\nerrorlevel = 2\nskip_broken = True\nmdpolicy = group:main\n# assumeyes = True\nexclude=httpd kernel\n")
+          is_expected.to contain_file('yum-cron rspec_hourly config').with_content("# ******************\n# Managed by Puppet\n# ******************\n\n[commands]\nupdate_cmd = security\nupdate_messages = no\ndownload_updates = no\napply_updates = no\nrandom_sleep = 120\n\n[emitters]\nsystem_name = None\nemit_via = email\noutput_width = 80\n\n[email]\nemail_from = updates@localhost\nemail_to = admin@example.com\nemail_host = smtp.example.com\n\n[groups]\ngroup_list = None\ngroup_package_types = mandatory, default\n\n[base]\ndebuglevel = -1\nerrorlevel = 2\nskip_broken = True\nmdpolicy = group:main\n# assumeyes = True\nexclude=httpd kernel\n")
         end
       end
     end
